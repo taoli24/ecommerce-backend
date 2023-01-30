@@ -29,8 +29,13 @@ const getProductById = (id) => {
     return products[id]
 }
 
-const addProduct = (newProduct) => {
-    products.push(newProduct)
+const addProduct = (product) => {
+    const newProduct = {
+        ...product,
+        id: 4
+    }
+
+    return newProduct
 }
 
 

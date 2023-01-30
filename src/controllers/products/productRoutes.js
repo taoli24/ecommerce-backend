@@ -23,15 +23,12 @@ productRouter.get("/:productId", (request, response) => {
 })
 
 productRouter.post("/", (requests, response) => {
-    const newProduct = {
+    const newProduct = addProduct({
         title: requests.body.title,
         description: requests.body.description,
         price: requests.body.price,
         stock: requests.body.stock
-    }
-
-    addProduct(newProduct)
-
+    })
 
     response.json(newProduct)
 })
