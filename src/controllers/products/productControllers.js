@@ -18,9 +18,13 @@ const getProductById = async (id) => {
 }
 
 const addProduct = async (product) => {
-    const newProduct = await Product.create(product)
-
-    return newProduct
+    try {
+        const newProduct = await Product.create(product)
+        return newProduct
+    }
+    catch(e){
+        console.log(e)
+    }
 }
 
 
