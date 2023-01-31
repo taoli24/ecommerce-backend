@@ -1,39 +1,24 @@
-
-const products = [
-    {
-        title: "Bag",
-        description: "Bag for all occasions",
-        price: 42,
-        stock: 10
-    },
-    {
-        title: "Ring",
-        description: "Wedding ring",
-        price: 4200,
-        stock: 5
-    },
-    {
-        title: "Wallet",
-        description: "Wallet for all occasions",
-        price: 420,
-        stock: 15
-    },
-]
+const Product = require("../../models/product")
 
 
-const getProducts = () => {
+const getProducts = async () => {
+    const products = await Product.find()
     return products
 }
 
-const getProductById = (id) => {
-    return products[id]
+const getProductById = async (id) => {
+    try {
+
+        const product = await Product.findById(id)
+        return product
+    }
+    catch(e){
+        console.log(e)
+    }
 }
 
-const addProduct = (product) => {
-    const newProduct = {
-        ...product,
-        id: 4
-    }
+const addProduct = async (product) => {
+    const newProduct = await Product.create(product)
 
     return newProduct
 }

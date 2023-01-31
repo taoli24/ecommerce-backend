@@ -10,7 +10,7 @@ const ProductSchema = new mongoose.Schema({
     description: String,
     price: Number,
     stock: Number,
-    reciews: [ReviewSchema]
+    reviews: [ReviewSchema]
 })
 
 const Product = mongoose.model("Product", ProductSchema)

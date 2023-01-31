@@ -4,13 +4,13 @@ const { getProducts, getProductById, addProduct } = require("./productController
 const productRouter = express.Router()
 
 
-productRouter.get("/", (requests, response) => {
-    const products = getProducts()
+productRouter.get("/", async (requests, response) => {
+    const products = await getProducts()
     response.json(products)
 })
 
-productRouter.get("/:productId", (request, response) => {
-    const product = getProductById(request.params.productId)
+productRouter.get("/:productId", async (request, response) => {
+    const product = await getProductById(request.params.productId)
     if (!product) {
         response.status(404).json({
             msg: "Product dose not exist in databse."
@@ -22,8 +22,8 @@ productRouter.get("/:productId", (request, response) => {
     }
 })
 
-productRouter.post("/", (requests, response) => {
-    const newProduct = addProduct({
+productRouter.post("/", async (requests, response) => {
+    const newProduct = await addProduct({
         title: requests.body.title,
         description: requests.body.description,
         price: requests.body.price,
