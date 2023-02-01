@@ -1,3 +1,7 @@
+const Cart = require("../../models/cart")
+
+
+
 const carts = [
     {
         user_id: 1,
@@ -27,16 +31,24 @@ const carts = [
     },
 ]
 
-const getCarts = () => carts
-const getCartById = (id) => carts[id]
-const getCartByUserId = (uid) => {
-    index = carts.findIndex(cart => cart.user_id === +uid)
-    return carts[index]
+const getCarts = async () => await Cart.find()
+const getCartById = async (id) => await Cart.findById(id)
+
+// /carts/user/userId?getProductInfo=true, we will retrieve product information
+const getCartByUserId = async (uid) => {
+    const cart = await Cart.findOne({user_id: uid})
+    return cart
+}
+
+const getCartByUserIdWithProductInfo = async (uid) => {
+    const cart = await Cart.findOne({user_id: uid}).populate("products.product")
+    return cart
 }
 
 
 module.exports = {
     getCarts,
     getCartById,
-    getCartByUserId
+    getCartByUserId,
+    getCartByUserIdWithProductInfo
 }
