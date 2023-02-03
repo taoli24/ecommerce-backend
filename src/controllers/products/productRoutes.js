@@ -5,6 +5,7 @@ const {
     addProduct,
     deleteProduct,
 } = require("./productControllers");
+const auth = require("../../middlewares/auth")
 
 const productRouter = express.Router();
 
@@ -24,12 +25,13 @@ productRouter.get("/:productId", async (request, response) => {
     }
 });
 
-productRouter.post("/", async (requests, response) => {
+productRouter.post("/", auth, async (request, response) => {
+    console.log(request.userId)
     const newProduct = await addProduct({
-        title: requests.body.title,
-        description: requests.body.description,
-        price: requests.body.price,
-        stock: requests.body.stock,
+        title: request.body.title,
+        description: request.body.description,
+        price: request.body.price,
+        stock: request.body.stock,
     });
 
     response.json(newProduct);
