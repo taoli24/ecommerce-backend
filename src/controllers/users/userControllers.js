@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const User = require("../../models/user")
+const Admin = require("../../models/admin")
 
 
 const registerUser = async (user) => {
@@ -48,7 +49,7 @@ const loginUser = async (user) => {
 
     if (isMatch) {
         const payload = {
-            id: existUser._id
+            id: existUser._id,
         }
 
         const token = jwt.sign(payload, "secret")
@@ -59,10 +60,41 @@ const loginUser = async (user) => {
     return {
         error: "Incorrect password."
     }
+}
 
+
+const loginAdmin = async (user) => {
+    // Check if user exists
+    // If user exists, match the password
+    // Create and return the token
+    const existAdmin = await Admin.findOne({username: user.username})
+
+    if (!existAdmin) {
+        return {
+            error: `(Username) ${user.username} does not exist in database.`
+        }
+    }
+
+    const isMatch = bcrypt.compare(user.password, existAdmin.password)
+
+    if (isMatch) {
+        const payload = {
+            id: existAdmin._id,
+            isAdmin: true
+        }
+
+        const token = jwt.sign(payload, "secret")
+
+        return token
+    }
+
+    return {
+        error: "Incorrect password."
+    }
 }
 
 module.exports = {
     registerUser,
     loginUser,
+    loginAdmin
 }
